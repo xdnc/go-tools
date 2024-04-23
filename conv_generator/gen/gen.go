@@ -1,9 +1,9 @@
 package gen
 
 import (
-	"github.com/xdnc/go-tools/con_generator/a"
-	"github.com/xdnc/go-tools/con_generator/b"
-	"github.com/xdnc/go-tools/con_generator/util"
+	"github.com/xdnc/go-tools/conv_generator/a"
+	"github.com/xdnc/go-tools/conv_generator/b"
+	"github.com/xdnc/go-tools/conv_generator/util"
 )
 
 func p_a__Req2p_b__Req(in *a.Req) *b.Req {
