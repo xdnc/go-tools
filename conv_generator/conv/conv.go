@@ -80,26 +80,26 @@ func genConvType(from, to reflect.Type, sb *strings.Builder, existed map[string]
 				if okMethod {
 					fromMethodOutType := fromMethod.Type.Out(0)
 					if fromMethodOutType.Kind() != toFieldType.Elem().Kind() {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetPtr(%s(in.%s())),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetPtr(%s(in.%s())),\n",
 							field.Name, toFieldType.Elem().String(), fromMethod.Name))
 					} else {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetPtr(in.%s()),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetPtr(in.%s()),\n",
 							field.Name, fromMethod.Name))
 					}
 				} else if fromField.Type.Kind() == reflect.Ptr {
 					if fromField.Type.Elem().Kind() != toFieldType.Elem().Kind() {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetPtr(%s(util.GetVal(in.%s))),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetPtr(%s(utils.GetVal(in.%s))),\n",
 							field.Name, toFieldType.Elem().String(), fromField.Name))
 					} else {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.CopyPtr(in.%s),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.CopyPtr(in.%s),\n",
 							field.Name, fromField.Name))
 					}
 				} else {
 					if fromField.Type.Kind() != toFieldType.Elem().Kind() {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetPtr(%s(in.%s)),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetPtr(%s(in.%s)),\n",
 							field.Name, toFieldType.Elem().String(), fromField.Name))
 					} else {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetPtr(in.%s),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetPtr(in.%s),\n",
 							field.Name, fromField.Name))
 					}
 				}
@@ -116,10 +116,10 @@ func genConvType(from, to reflect.Type, sb *strings.Builder, existed map[string]
 					}
 				} else if fromField.Type.Kind() == reflect.Ptr {
 					if fromField.Type.Elem().Kind() != toFieldType.Kind() {
-						sb.WriteString(fmt.Sprintf("\t\t%s: %s(util.GetVal(in.%s)),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: %s(utils.GetVal(in.%s)),\n",
 							field.Name, toFieldType.String(), fromField.Name))
 					} else {
-						sb.WriteString(fmt.Sprintf("\t\t%s: util.GetVal(in.%s),\n",
+						sb.WriteString(fmt.Sprintf("\t\t%s: utils.GetVal(in.%s),\n",
 							field.Name, fromField.Name))
 					}
 				} else {
@@ -162,27 +162,27 @@ func genConvType(from, to reflect.Type, sb *strings.Builder, existed map[string]
 		} else if outElem.Kind() == reflect.Ptr {
 			if inElem.Kind() == reflect.Ptr {
 				if inElem.Elem().Kind() != outElem.Elem().Kind() {
-					sb.WriteString(fmt.Sprintf("\t\tout[i] = util.GetPtr(%s(util.GetVal(in[i])))\n",
+					sb.WriteString(fmt.Sprintf("\t\tout[i] = utils.GetPtr(%s(utils.GetVal(in[i])))\n",
 						outElem.Elem().String()))
 				} else {
-					sb.WriteString("\t\tout[i] = util.CopyPtr(in)\n")
+					sb.WriteString("\t\tout[i] = utils.CopyPtr(in)\n")
 				}
 			} else {
 				if inElem.Kind() != outElem.Elem().Kind() {
-					sb.WriteString(fmt.Sprintf("\t\tout[i] = util.GetPtr(%s(in[i]))\n",
+					sb.WriteString(fmt.Sprintf("\t\tout[i] = utils.GetPtr(%s(in[i]))\n",
 						outElem.Elem().String()))
 				} else {
-					sb.WriteString("\t\tout[i] = util.GetPtr(in)\n")
+					sb.WriteString("\t\tout[i] = utils.GetPtr(in)\n")
 				}
 			}
 		} else if outElem.Kind() == reflect.String ||
 			(outElem.Kind() >= reflect.Bool && outElem.Kind() <= reflect.Complex128) {
 			if inElem.Kind() == reflect.Ptr {
 				if inElem.Elem().Kind() != outElem.Kind() {
-					sb.WriteString(fmt.Sprintf("\t\tout[i] = %s(util.GetVal(in[i]))\n",
+					sb.WriteString(fmt.Sprintf("\t\tout[i] = %s(utils.GetVal(in[i]))\n",
 						outElem.String()))
 				} else {
-					sb.WriteString("\t\tout[i] = util.GetVal(in[i])\n")
+					sb.WriteString("\t\tout[i] = utils.GetVal(in[i])\n")
 				}
 			} else {
 				if inElem.Kind() != outElem.Kind() {
